@@ -91,10 +91,6 @@ export default function CheckoutClient({ p }: { p: Property }) {
         {processing && <Spinner />}
         {processing ? 'Starting payment...' : (<>Pay inspection fee <InspectionFee fee={p.fee} /></>)}
       </button>
-      <p className="mt-6 text-sm text-muted">Test mode. No real payment, no card details.</p>
-      <button onClick={() => router.push(`/checkout/${p.slug}/test`)} className="btn-press mt-2 flex w-full items-center justify-center rounded-full border border-line bg-white px-5 py-3 font-bold text-velvet">
-        Card (test mode)
-      </button>
     </div>
   );
 }

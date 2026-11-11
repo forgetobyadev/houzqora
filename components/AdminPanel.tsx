@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { adminLogout } from '@/lib/admin-auth';
-import { createPropertyAdmin, deletePropertyAdmin, getTestCheckoutsAdmin, updatePropertyAdmin, uploadPropertyImageAdmin, type TestCheckoutRow } from '@/lib/admin-actions';
+import { createPropertyAdmin, deletePropertyAdmin, updatePropertyAdmin, uploadPropertyImageAdmin } from '@/lib/admin-actions';
 import { fetchAllProperties } from '@/lib/queries';
-import { eur } from '@/lib/properties';
 import Spinner from '@/components/Spinner';
 import type { Property } from '@/lib/properties';
 
@@ -205,11 +204,6 @@ export default function AdminPanel({ initialProperties }: { initialProperties: P
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
   const [toggling, setToggling] = useState<string | null>(null);
-  const [tests, setTests] = useState<TestCheckoutRow[]>([]);
-
-  useEffect(() => {
-    void getTestCheckoutsAdmin().then((rows) => setTests(rows));
-  }, []);
 
   const cities = useMemo(() => Array.from(new Set(list.map((p) => p.city))).sort(), [list]);
 
@@ -371,23 +365,6 @@ export default function AdminPanel({ initialProperties }: { initialProperties: P
         {visible.length === 0 && (
           <p className="rounded-xl border border-line bg-white p-4 text-sm text-muted">No houses match that search.</p>
         )}
-      </div>
-
-      <div className="mt-8">
-        <h2 className="text-xl font-extrabold text-velvet">Test checkouts ({tests.length})</h2>
-        <p className="mt-1 text-sm text-muted">Test records only. No real payments, no card details.</p>
-        <div className="mt-3 space-y-2">
-          {tests.map((t) => (
-            <div key={t.id} className="rounded-xl border border-line bg-white px-4 py-3 text-sm">
-              <span className="font-bold">{t.name}</span>
-              <span className="block text-muted">{t.email} · {t.property_slug} · {eur(t.amount_cents / 100)} · {new Date(t.created_at).toLocaleString()}</span>
-              {t.note && <span className="mt-1 block text-muted">{t.note}</span>}
-            </div>
-          ))}
-          {tests.length === 0 && (
-            <p className="rounded-xl border border-line bg-white p-4 text-sm text-muted">No test checkouts yet.</p>
-          )}
-        </div>
       </div>
     </div>
   );
