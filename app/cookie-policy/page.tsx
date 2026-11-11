@@ -36,10 +36,7 @@ export default function CookiePolicy() {
       </ul>
       <p className="mt-2 text-muted">If we add analytics or marketing cookies later, we will update this page and ask for your choice in Cookie settings first.</p>
 
-      <h2 className="mt-6 text-xl font-extrabold text-velvet">5. Payments</h2>
-      <p className="mt-2 text-muted">When you pay, you leave HOUZQORA and pay on the Mollie page. Mollie may set its own cookies on its own pages, under its own cookie policy. We do not control those cookies.</p>
-
-      <h2 className="mt-6 text-xl font-extrabold text-velvet">6. How to control cookies</h2>
+      <h2 className="mt-6 text-xl font-extrabold text-velvet">5. How to control cookies</h2>
       <p className="mt-2 text-muted">Use the Cookie settings page to save your choices for this site. You can also delete cookies and browser storage in your browser settings at any time. If you block strictly necessary cookies in your browser, signing in, saving homes, and booking will not work.</p>
 
       <div className="mt-8 rounded-2xl border border-line bg-white p-5">

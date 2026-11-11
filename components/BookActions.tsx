@@ -7,7 +7,7 @@ import Spinner from '@/components/Spinner';
 
 export default function BookActions({ slug, title, city }: { slug: string; title: string; city: string }) {
   const router = useRouter();
-  const [busy, setBusy] = useState<'pay' | 'book' | 'agent' | null>(null);
+  const [busy, setBusy] = useState<'form' | 'book' | 'agent' | null>(null);
 
   const ensureBooking = async () => {
     const user = await getCurrentUser();
@@ -30,8 +30,8 @@ export default function BookActions({ slug, title, city }: { slug: string; title
     }
   };
 
-  const pay = async () => {
-    setBusy('pay');
+  const form = async () => {
+    setBusy('form');
     try {
       if (await ensureBooking()) router.push(`/checkout/${slug}`);
     } finally {
@@ -62,8 +62,8 @@ export default function BookActions({ slug, title, city }: { slug: string; title
 
   return (
     <div className="flex flex-wrap gap-3">
-      <button onClick={pay} disabled={busy !== null} className="btn-press flex items-center gap-2 rounded-full bg-strawberry px-5 py-3 font-bold text-white shadow-[0_2px_0_rgba(230,59,78,0.3)] disabled:opacity-60">
-        {busy === 'pay' && <Spinner />}Pay inspection fee
+      <button onClick={form} disabled={busy !== null} className="btn-press flex items-center gap-2 rounded-full bg-strawberry px-5 py-3 font-bold text-white shadow-[0_2px_0_rgba(230,59,78,0.3)] disabled:opacity-60">
+        {busy === 'form' && <Spinner />}Fill form
       </button>
       <button onClick={book} disabled={busy !== null} className="btn-press flex items-center gap-2 rounded-full bg-velvet px-5 py-3 font-bold text-white disabled:opacity-60">
         {busy === 'book' && <Spinner />}Book inspection

@@ -28,12 +28,18 @@ function AgentsContent() {
 
   const title = searchParams.get('title') || '';
   const city = searchParams.get('city') || '';
+  const intent = searchParams.get('intent') || '';
+  const ref = searchParams.get('ref') || '';
   // The draft still goes to WhatsApp in the link itself, so tapping
   // an agent opens WhatsApp with it ready. It is no longer shown
-  // on this page.
-  const draft = title && city
-    ? `Hi HOUZQORA, I want to book a house inspection for ${title} in ${city}. Please help me with the next steps.`
-    : 'Hi HOUZQORA, I want to book a house inspection. Please help me with the next steps.';
+  // on this page. A receipt link carries buy or rent plus the
+  // receipt reference, so the agent hears the choice and the
+  // reference straight away.
+  const draft = title && city && (intent === 'buy' || intent === 'rent') && ref
+    ? `Hi HOUZQORA, I want to ${intent} ${title} in ${city}. My receipt is ${ref} and I will send it to you here. Please help me with the next steps.`
+    : title && city
+      ? `Hi HOUZQORA, I want to book a house inspection for ${title} in ${city}. Please help me with the next steps.`
+      : 'Hi HOUZQORA, I want to book a house inspection. Please help me with the next steps.';
 
   // Fallback only: the real auth door is the click on Contact
   // agent, Message agency, or Chat with an agent, which checks
@@ -64,7 +70,9 @@ function AgentsContent() {
       <h1 className="mt-4 text-3xl font-extrabold text-velvet">Contact an agent</h1>
       <p className="mt-2 text-muted">
         {title && city
-          ? `About ${title} in ${city}. Choose an agent to chat with on WhatsApp.`
+          ? ref
+            ? `About ${title} in ${city}. Your receipt ${ref} is ready to send.`
+            : `About ${title} in ${city}. Choose an agent to chat with on WhatsApp.`
           : 'Choose an agent to chat with on WhatsApp about a home or an inspection.'}
       </p>
 

@@ -8,7 +8,7 @@ export default function Terms() {
       <p className="mt-3 text-muted">These terms explain how HOUZQORA works. By using HOUZQORA, you agree to them. HOUZQORA is a rental and property inspection platform for the Netherlands, listing homes across the country.</p>
 
       <h2 className="mt-6 text-xl font-extrabold text-velvet">1. What HOUZQORA does</h2>
-      <p className="mt-2 text-muted">HOUZQORA lists available rental homes, shows the monthly rent, the inspection fee, and the amount needed to secure a home, and lets you book and pay for an inspection. We arrange the viewing. We do not decide who rents a home. That decision sits with the agency and the property owner, under their own terms.</p>
+      <p className="mt-2 text-muted">HOUZQORA lists available rental homes, shows the monthly rent, the inspection fee, and the amount needed to secure a home, and lets you book an inspection and generate a receipt for the inspection fee. We arrange the viewing. We do not decide who rents a home. That decision sits with the agency and the property owner, under their own terms.</p>
 
       <h2 className="mt-6 text-xl font-extrabold text-velvet">2. Your account</h2>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
@@ -31,19 +31,19 @@ export default function Terms() {
         <li>The inspection fee is non-refundable. It covers arranging and conducting your viewing.</li>
         <li>Paying the inspection fee does not reserve a home, allocate it to you, or transfer any tenancy rights.</li>
         <li>The home stays subject to availability until the required securing payment has been received and confirmed by the agency under its stated terms.</li>
-        <li>If a home becomes unavailable after you pay, the agency will handle that case with you directly. See the Inspection policy for the detail.</li>
+        <li>If a home becomes unavailable after you generate a receipt, the agency will handle that case with you directly. See the Inspection policy for the detail.</li>
       </ul>
 
-      <h2 className="mt-6 text-xl font-extrabold text-velvet">5. Payments</h2>
+      <h2 className="mt-6 text-xl font-extrabold text-velvet">5. Receipts, not payments</h2>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
-        <li>You pay by iDEAL through Mollie. You pay on the provider page. No card or bank details pass through HOUZQORA.</li>
+        <li>There is no online payment on HOUZQORA. At checkout you fill a form and generate a receipt for the inspection fee.</li>
         <li>The fee is read from our database at checkout, never from your browser.</li>
-        <li>A booking is marked paid only after the payment provider confirms the payment to us. A payment that fails or expires does not mark a booking as paid.</li>
-        <li>If a payment fails, you can try again. If you are charged and your booking still shows as unpaid, contact an agent with the date, the amount, and the home, and we will check it with the provider.</li>
+        <li>Send the receipt to an agent on WhatsApp. The agency arranges the viewing and confirms the fee with you directly.</li>
+        <li>A booking is not marked paid on HOUZQORA. The agency confirms payment under its own terms.</li>
       </ul>
 
       <h2 className="mt-6 text-xl font-extrabold text-velvet">6. Viewings</h2>
-      <p className="mt-2 text-muted">After payment, pick a viewing slot in Bookings and follow the instructions shown there. If you cannot attend, tell us as soon as you can through the agents page. The inspection fee is still non-refundable, as set out in section 4.</p>
+      <p className="mt-2 text-muted">After generating your receipt, pick a viewing slot in Bookings and follow the instructions shown there. If you cannot attend, tell us as soon as you can through the agents page. The inspection fee is still non-refundable, as set out in section 4.</p>
 
       <h2 className="mt-6 text-xl font-extrabold text-velvet">7. Inspection discount</h2>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
