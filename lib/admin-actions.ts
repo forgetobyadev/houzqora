@@ -70,3 +70,31 @@ export async function deletePropertyAdmin(slug: string): Promise<Result> {
     return { ok: false, error: e instanceof Error ? e.message : 'Could not delete this house.' };
   }
 }
+
+// Test checkouts: the records saved by the HOUZQORA test checkout
+// page. Admin only, newest first. These are test records, not
+// payments, and they never hold card details.
+export type TestCheckoutRow = {
+  id: string;
+  property_slug: string;
+  amount_cents: number;
+  name: string;
+  email: string;
+  note: string;
+  created_at: string;
+};
+
+export async function getTestCheckoutsAdmin(): Promise<TestCheckoutRow[]> {
+  if (!(await isAdmin())) return [];
+  try {
+    const { data, error } = await getAdminSupabase()
+      .from('test_checkouts')
+      .select('id, property_slug, amount_cents, name, email, note, created_at')
+      .order('created_at', { ascending: false })
+      .limit(100);
+    if (error || !data) return [];
+    return data as TestCheckoutRow[];
+  } catch {
+    return [];
+  }
+}
