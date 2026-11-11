@@ -1,8 +1,9 @@
 'use client';
 
 /*
- * Pagination: Previous, the current page only, an ellipsis when
- * more pages follow, Next, and a page status line.
+ * Pagination: Previous, the previous page number in a small circle,
+ * the current page in the main circle, the next page number in a
+ * small circle, Next, and a page status line.
  * Only rendered when there is more than one page.
  */
 export default function Pagination({
@@ -25,17 +26,32 @@ export default function Pagination({
       >
         Previous
       </button>
+      {page > 1 && (
+        <button
+          type="button"
+          onClick={() => onPage(page - 1)}
+          aria-label={`Go to page ${page - 1}`}
+          className="btn-press flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white text-xs font-bold text-velvet"
+        >
+          {page - 1}
+        </button>
+      )}
       <button
         type="button"
         aria-current="page"
-        className="btn-press rounded-full bg-velvet px-4 py-2 text-sm font-bold text-white"
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-velvet text-sm font-bold text-white"
       >
         {page}
       </button>
       {page < totalPages && (
-        <span className="px-1 text-sm font-bold text-muted" aria-hidden="true">
-          ...
-        </span>
+        <button
+          type="button"
+          onClick={() => onPage(page + 1)}
+          aria-label={`Go to page ${page + 1}`}
+          className="btn-press flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white text-xs font-bold text-velvet"
+        >
+          {page + 1}
+        </button>
       )}
       <button
         type="button"
