@@ -11,7 +11,6 @@ import Spinner from '@/components/Spinner';
 export default function CheckoutClient({ p }: { p: Property }) {
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
-  const [method, setMethod] = useState<'ideal' | 'card'>('card');
   const [error, setError] = useState('');
   const [user, setUser] = useState<AppUser | null>(null);
   const [checked, setChecked] = useState(false);
@@ -41,10 +40,10 @@ export default function CheckoutClient({ p }: { p: Property }) {
   }
 
   // Pay, not just record. This creates a real payment with Mollie
-  // for iDEAL or Stripe for Card, then sends the customer to the
-  // provider to pay there. No card or bank details pass through
-  // this page. The booking is only marked paid later, by the
-  // provider webhook, after the provider confirms the money.
+  // for iDEAL, then sends the customer to the provider to pay
+  // there. No card or bank details pass through this page. The
+  // booking is only marked paid later, by the provider webhook,
+  // after the provider confirms the money.
   const pay = async () => {
     setError('');
     setProcessing(true);
@@ -63,7 +62,7 @@ export default function CheckoutClient({ p }: { p: Property }) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify({ slug: p.slug, method }),
+        body: JSON.stringify({ slug: p.slug, method: 'ideal' }),
       });
       const data = await res.json();
       if (!res.ok || !data?.checkoutUrl) {
@@ -86,10 +85,7 @@ export default function CheckoutClient({ p }: { p: Property }) {
         <p className="flex justify-between"><span>Remaining to secure, first month plus deposit</span><b>{eur(p.securing)}</b></p>
       </div>
       <p className="mt-4 text-sm text-muted">Confirming the inspection does not reserve this home. It covers arranging and conducting your viewing.</p>
-      <div className="mt-4 flex gap-2">
-        <button type="button" onClick={() => setMethod('card')} disabled={processing} className={`btn-press flex-1 rounded-full px-5 py-3 font-bold ${method === 'card' ? 'bg-velvet text-white' : 'border border-line bg-white text-velvet'} disabled:opacity-60`}>Card</button>
-        <button type="button" onClick={() => setMethod('ideal')} disabled={processing} className={`btn-press flex-1 rounded-full px-5 py-3 font-bold ${method === 'ideal' ? 'bg-velvet text-white' : 'border border-line bg-white text-velvet'} disabled:opacity-60`}>iDEAL</button>
-      </div>
+      <p className="mt-4 text-sm text-muted">You pay by iDEAL through Mollie.</p>
       {error && <p className="mt-3 text-sm font-bold text-strawberry">{error}</p>}
       <button onClick={pay} disabled={processing} className="btn-press mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-strawberry px-5 py-3 font-bold text-white disabled:opacity-60">
         {processing && <Spinner />}

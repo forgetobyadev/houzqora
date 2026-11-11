@@ -36,7 +36,7 @@ export default function Terms() {
 
       <h2 className="mt-6 text-xl font-extrabold text-velvet">5. Payments</h2>
       <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
-        <li>You pay by iDEAL through Mollie, or by card through Stripe. You pay on the provider page. No card or bank details pass through HOUZQORA.</li>
+        <li>You pay by iDEAL through Mollie. You pay on the provider page. No card or bank details pass through HOUZQORA.</li>
         <li>The fee is read from our database at checkout, never from your browser.</li>
         <li>A booking is marked paid only after the payment provider confirms the payment to us. A payment that fails or expires does not mark a booking as paid.</li>
         <li>If a payment fails, you can try again. If you are charged and your booking still shows as unpaid, contact an agent with the date, the amount, and the home, and we will check it with the provider.</li>
@@ -64,7 +64,7 @@ export default function Terms() {
       </ul>
 
       <h2 className="mt-6 text-xl font-extrabold text-velvet">10. Changes and governing law</h2>
-      <p className="mt-2 text-muted">We can update these terms when the service changes. The date at the top shows the latest version. If a change affects you in an important way, we will tell you when you next sign in. These terms are governed by the law of the Netherlands. [COMPANY LEGAL NAME], [REGISTERED ADDRESS IN THE NETHERLANDS].</p>
+      <p className="mt-2 text-muted">We can update these terms when the service changes. The date at the top shows the latest version. If a change affects you in an important way, we will tell you when you next sign in. These terms are governed by the law of the Netherlands.</p>
 
       <div className="mt-8 rounded-2xl border border-line bg-white p-5">
         <p className="font-bold text-velvet">More legal pages</p>

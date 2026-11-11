@@ -3,10 +3,10 @@ import { createClient } from '@supabase/supabase-js';
 import { getAdminSupabase } from '@/lib/admin-supabase';
 import { getFeeToCharge } from '@/lib/discount-server';
 
-// Creates a real payment with Mollie (iDEAL) or Stripe (Card) and
-// returns the provider checkout page to send the customer to.
-// No card or bank details ever pass through this route: Mollie and
-// Stripe host their own checkout pages. The amount is always read
+// Creates a real payment with Mollie (iDEAL) and returns the
+// provider checkout page to send the customer to.
+// No card or bank details ever pass through this route: Mollie
+// hosts its own checkout page. The amount is always read
 // from the properties table in the database, never from the browser,
 // so a tampered request cannot change the fee. When the account
 // discount is claimed and inside its 7 day window, the fee charged
@@ -16,8 +16,8 @@ import { getFeeToCharge } from '@/lib/discount-server';
 export async function POST(request: Request) {
   try {
     const { slug, method } = (await request.json()) as { slug?: string; method?: string };
-    if (!slug || (method !== 'ideal' && method !== 'card')) {
-      return NextResponse.json({ error: 'Choose iDEAL or Card.' }, { status: 400 });
+    if (!slug || method !== 'ideal') {
+      return NextResponse.json({ error: 'iDEAL is the only payment method.' }, { status: 400 });
     }
 
     // The browser sends its Supabase session token, so this route
@@ -95,43 +95,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ checkoutUrl: payment._links.checkout.href });
     }
 
-    const stripeKey = process.env.STRIPE_SECRET_KEY;
-    if (!stripeKey) {
-      return NextResponse.json({ error: 'Stripe is not configured yet.' }, { status: 503 });
-    }
-    const body = new URLSearchParams({
-      mode: 'payment',
-      success_url: `${origin}/bookings?payment=success`,
-      cancel_url: `${origin}/checkout/${slug}?payment=cancelled`,
-      'line_items[0][price_data][currency]': 'eur',
-      'line_items[0][price_data][product_data][name]': `HOUZQORA inspection fee - ${property.title}`,
-      'line_items[0][price_data][unit_amount]': String(amountCents),
-      'line_items[0][quantity]': '1',
-      'metadata[user_id]': user.id,
-      'metadata[property_slug]': slug,
-    });
-    const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${stripeKey}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
-    });
-    const session = await res.json();
-    if (!res.ok || !session?.id || !session?.url) {
-      return NextResponse.json({ error: 'Stripe could not start this payment. Please try again.' }, { status: 502 });
-    }
-    const { error } = await db.from('payments').insert({
-      user_id: user.id,
-      property_slug: slug,
-      provider: 'stripe',
-      method: 'card',
-      provider_payment_id: session.id,
-      amount_cents: amountCents,
-      status: 'pending',
-    });
-    if (error) {
-      return NextResponse.json({ error: 'This payment could not be recorded. Please try again.' }, { status: 500 });
-    }
-    return NextResponse.json({ checkoutUrl: session.url });
   } catch {
     return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 });
   }

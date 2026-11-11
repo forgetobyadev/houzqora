@@ -41,10 +41,6 @@ export default function Footer() {
         <p className="mt-8 max-w-xl text-sm text-white/70">
           HOUZQORA is a rental and property inspection platform for the Netherlands, for people finding their next home and arranging a viewing with clear fees.
         </p>
-        <p className="mt-4 max-w-xl text-sm text-white/70">
-          HOUZQORA is the brand of [COMPANY LEGAL NAME], registered in the Netherlands, [COMPANY REGISTRATION NUMBER].
-        </p>
-
         <div className="mt-8 border-t border-white/10 pt-5">
           <p className="text-sm text-white/70">© 2026 HOUZQORA. All rights reserved.</p>
         </div>

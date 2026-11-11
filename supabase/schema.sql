@@ -156,7 +156,7 @@ alter table public.user_discounts enable row level security;
 drop policy if exists "user_discounts own" on public.user_discounts;
 create policy "user_discounts own" on public.user_discounts for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
--- Payments, for the real Mollie and Stripe pipeline. One row per
+-- Payments, for the real Mollie pipeline. One row per
 -- payment attempt, created by the server when checkout starts and
 -- only marked paid by a provider webhook after the provider confirms
 -- the money. The fee itself is never taken from the browser: the
@@ -167,8 +167,8 @@ create table if not exists public.payments (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users (id) on delete cascade,
   property_slug text not null references public.properties (slug) on delete cascade,
-  provider text not null check (provider in ('mollie', 'stripe')),
-  method text not null check (method in ('ideal', 'card')),
+  provider text not null check (provider = 'mollie'),
+  method text not null check (method = 'ideal'),
   provider_payment_id text not null unique,
   amount_cents int not null,
   status text not null default 'pending' check (status in ('pending', 'paid', 'failed', 'cancelled')),
