@@ -23,10 +23,10 @@ type Receipt = {
   fee: number;
 };
 
-// Checkout is now a receipt, not a payment. There is no Mollie,
+// Checkout is now an authority to pay, not a payment. There is no Mollie,
 // no iDEAL, and no online payment anywhere on HOUZQORA. The
 // visitor fills a form (buy or rent, viewing slot, how the agent
-// should reach them), generates a receipt PDF with the house
+// should reach them), generates an authority to pay PDF with the house
 // details, downloads it to their phone, and sends it to an agent
 // on WhatsApp. The booking is never marked paid by this flow.
 export default function CheckoutClient({ p }: { p: Property }) {
@@ -95,11 +95,11 @@ export default function CheckoutClient({ p }: { p: Property }) {
     doc.setFontSize(14);
     doc.setTextColor(0, 0, 0);
     y += 10;
-    doc.text('Inspection receipt', 20, y);
+    doc.text('Authority to pay', 20, y);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(11);
     y += 10;
-    doc.text(`Receipt: ${r.ref}`, 20, y);
+    doc.text(`Reference: ${r.ref}`, 20, y);
     y += 7;
     doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 20, y);
     y += 7;
@@ -143,8 +143,8 @@ export default function CheckoutClient({ p }: { p: Property }) {
     y += 10;
     doc.setFontSize(10);
     doc.setTextColor(90, 90, 90);
-    doc.text('Send this receipt to your agent on WhatsApp.', 20, y);
-    doc.save(`HOUZQORA-receipt-${r.ref}.pdf`);
+    doc.text('Send this authority to pay to your agent on WhatsApp.', 20, y);
+    doc.save(`HOUZQORA-authority-to-pay-${r.ref}.pdf`);
   };
 
   const generate = async () => {
@@ -173,7 +173,7 @@ export default function CheckoutClient({ p }: { p: Property }) {
       }
       setReceipt(r);
     } catch {
-      setError('The receipt could not be generated. Please try again.');
+      setError('The authority to pay could not be generated. Please try again.');
     } finally {
       setBusy(false);
     }
@@ -184,18 +184,18 @@ export default function CheckoutClient({ p }: { p: Property }) {
   const option = (selected: boolean) =>
     `btn-press rounded-full px-4 py-2.5 text-sm font-bold ${selected ? 'bg-velvet text-white' : 'border border-line bg-white text-velvet'}`;
 
-  // Receipt generated: show the instruction and the button to the
+  // Authority to pay generated: show the instruction and the button to the
   // agents page. The agents page builds the WhatsApp draft from
-  // the receipt, so the agent hears buy or rent plus the receipt
+  // the authority to pay, so the agent hears buy or rent plus the
   // reference.
   if (receipt) {
     const agentsHref = `/agents?title=${encodeURIComponent(p.title)}&city=${encodeURIComponent(p.city)}&intent=${receipt.intent}&ref=${encodeURIComponent(receipt.ref)}`;
     return (
       <div className="rounded-2xl border border-line bg-white p-6">
-        <h2 className="text-xl font-extrabold text-velvet">Your receipt is downloaded.</h2>
-        <p className="mt-2 text-sm text-muted">Send the receipt to your agent on WhatsApp. Open the chat, attach the receipt file, and send it.</p>
+        <h2 className="text-xl font-extrabold text-velvet">Your authority to pay is downloaded.</h2>
+        <p className="mt-2 text-sm text-muted">Send the authority to pay to your agent on WhatsApp. Open the chat, attach the file, and send it.</p>
         <div className="mt-4 space-y-2 text-sm">
-          <p className="flex justify-between"><span>Receipt</span><b>{receipt.ref}</b></p>
+          <p className="flex justify-between"><span>Authority to pay</span><b>{receipt.ref}</b></p>
           <p className="flex justify-between"><span>House</span><b>{p.title}</b></p>
           <p className="flex justify-between"><span>You want to</span><b>{receipt.intent === 'buy' ? 'Buy' : 'Rent'}</b></p>
           <p className="flex justify-between"><span>Inspection fee</span><b>{eur(receipt.fee)}</b></p>
@@ -204,7 +204,7 @@ export default function CheckoutClient({ p }: { p: Property }) {
           Go to agents
         </AgentLink>
         <button onClick={() => { void buildPdf(receipt); }} className="btn-press mt-3 flex w-full items-center justify-center rounded-full border border-line bg-white px-5 py-3 font-bold text-velvet">
-          Download receipt again
+          Download authority to pay again
         </button>
       </div>
     );
@@ -263,7 +263,7 @@ export default function CheckoutClient({ p }: { p: Property }) {
           {error && <p className="text-sm font-bold text-strawberry">{error}</p>}
           <button onClick={generate} disabled={busy} className="btn-press flex w-full items-center justify-center gap-2 rounded-full bg-strawberry px-5 py-3 font-bold text-white disabled:opacity-60">
             {busy && <Spinner />}
-            {busy ? 'Generating receipt...' : 'Generate receipt'}
+            {busy ? 'Generating authority to pay...' : 'Generate authority to pay'}
           </button>
         </div>
       )}

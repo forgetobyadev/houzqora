@@ -32,11 +32,11 @@ function AgentsContent() {
   const ref = searchParams.get('ref') || '';
   // The draft still goes to WhatsApp in the link itself, so tapping
   // an agent opens WhatsApp with it ready. It is no longer shown
-  // on this page. A receipt link carries buy or rent plus the
-  // receipt reference, so the agent hears the choice and the
+  // on this page. An authority to pay link carries buy or rent plus the
+  // reference, so the agent hears the choice and the
   // reference straight away.
   const draft = title && city && (intent === 'buy' || intent === 'rent') && ref
-    ? `Hi HOUZQORA, I want to ${intent} ${title} in ${city}. My receipt is ${ref} and I will send it to you here. Please help me with the next steps.`
+    ? `Hi HOUZQORA, I want to ${intent} ${title} in ${city}. My authority to pay is ${ref} and I will send it to you here. Please help me with the next steps.`
     : title && city
       ? `Hi HOUZQORA, I want to book a house inspection for ${title} in ${city}. Please help me with the next steps.`
       : 'Hi HOUZQORA, I want to book a house inspection. Please help me with the next steps.';
@@ -71,7 +71,7 @@ function AgentsContent() {
       <p className="mt-2 text-muted">
         {title && city
           ? ref
-            ? `About ${title} in ${city}. Your receipt ${ref} is ready to send.`
+            ? `About ${title} in ${city}. Your authority to pay ${ref} is ready to send.`
             : `About ${title} in ${city}. Choose an agent to chat with on WhatsApp.`
           : 'Choose an agent to chat with on WhatsApp about a home or an inspection.'}
       </p>

@@ -63,7 +63,7 @@ export default function BookActions({ slug, title, city }: { slug: string; title
   return (
     <div className="flex flex-wrap gap-3">
       <button onClick={form} disabled={busy !== null} className="btn-press flex items-center gap-2 rounded-full bg-strawberry px-5 py-3 font-bold text-white shadow-[0_2px_0_rgba(230,59,78,0.3)] disabled:opacity-60">
-        {busy === 'form' && <Spinner />}Fill form
+        {busy === 'form' && <Spinner />}Make payment
       </button>
       <button onClick={book} disabled={busy !== null} className="btn-press flex items-center gap-2 rounded-full bg-velvet px-5 py-3 font-bold text-white disabled:opacity-60">
         {busy === 'book' && <Spinner />}Book inspection

@@ -13,7 +13,7 @@ export default function Privacy() {
       <ul className="mt-2 list-disc space-y-1 pl-5 text-muted">
         <li>Account details you give us when you sign up: your name, email address, and phone number.</li>
         <li>Homes you save, bookings you make, viewing slots you pick, and whether an inspection fee has been paid.</li>
-        <li>Receipt details, when you generate a receipt: the house, whether you want to buy or rent, your viewing slot, and how the agent should reach you. We do not collect or store your card number or bank details. There is no online payment on HOUZQORA.</li>
+        <li>Authority to pay details, when you generate an authority to pay: the house, whether you want to buy or rent, your viewing slot, and how the agent should reach you. We do not collect or store your card number or bank details. There is no online payment on HOUZQORA.</li>
         <li>Discount state for signed in users: when your 7 day inspection discount started and whether you claimed it.</li>
         <li>Technical details needed to keep you signed in and to keep the site working, such as a session identifier.</li>
       </ul>
