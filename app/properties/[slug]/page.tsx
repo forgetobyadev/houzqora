@@ -6,6 +6,10 @@ import InspectionFee from '@/components/InspectionFee';
 import { eur, properties } from '@/lib/properties';
 import { fetchProperty } from '@/lib/queries';
 
+// Prices live in the database and change without a deploy, so this
+// page must read them fresh on every visit, never from the cache.
+export const dynamic = 'force-dynamic';
+
 export function generateStaticParams() {
   return properties.map((p) => ({ slug: p.slug }));
 }
