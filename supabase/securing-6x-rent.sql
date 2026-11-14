@@ -1,3 +1,4 @@
+-- NOTE 2026-11-14: securing is now 9x rent, see securing-9x-rent.sql.
 -- Securing is now 6x the monthly rent (2026-11-14), replacing the 3x rule.
 -- Applied live via the service role key; run only if the DB still holds 3x values.
 update public.properties set securing = 11700 where slug = 'modern-two-bedroom-apartment-stevenshof';

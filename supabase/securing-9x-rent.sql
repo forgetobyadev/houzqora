@@ -1,0 +1,53 @@
+-- Securing is now 9x the monthly rent (2026-11-14), replacing the 6x rule.
+-- 9 months' rent secures the home for a full year: a year would be 12 months' rent,
+-- so 3 months come as a bonus. Applied live via the service role key; run only if
+-- the DB still holds 6x values.
+update public.properties set securing = 17550 where slug = 'modern-two-bedroom-apartment-stevenshof';
+update public.properties set securing = 17910 where slug = 'sunny-three-bedroom-house-dubbeldam';
+update public.properties set securing = 19710 where slug = 'charming-three-bedroom-house-oud-noord';
+update public.properties set securing = 18900 where slug = 'cozy-three-bedroom-house-assendorp';
+update public.properties set securing = 24300 where slug = 'modern-three-bedroom-house-princenhage';
+update public.properties set securing = 22050 where slug = 'modern-two-bedroom-apartment-jordaan';
+update public.properties set securing = 26910 where slug = 'spacious-three-bedroom-house-leidsche-rijn';
+update public.properties set securing = 15264 where slug = 'cozy-two-bedroom-apartment-wittevrouwen';
+update public.properties set securing = 20610 where slug = 'modern-two-bedroom-apartment-oud-west';
+update public.properties set securing = 16110 where slug = 'bright-two-bedroom-apartment-hatert';
+update public.properties set securing = 23310 where slug = 'modern-three-bedroom-house-kattenbroek';
+update public.properties set securing = 21510 where slug = 'light-three-bedroom-house-schuytgraaf';
+update public.properties set securing = 20700 where slug = 'bright-three-bedroom-house-voorhof';
+update public.properties set securing = 16650 where slug = 'bright-one-bedroom-apartment-katendrecht';
+update public.properties set securing = 17100 where slug = 'bright-one-bedroom-apartment-noord';
+update public.properties set securing = 20250 where slug = 'bright-two-bedroom-apartment-scheveningen';
+update public.properties set securing = 15570 where slug = 'bright-two-bedroom-apartment-stadshagen';
+update public.properties set securing = 16110 where slug = 'bright-two-bedroom-apartment-wyck';
+update public.properties set securing = 14310 where slug = 'charming-one-bedroom-apartment-jekerkwartier';
+update public.properties set securing = 16650 where slug = 'cozy-one-bedroom-apartment-bezuidenhout';
+update public.properties set securing = 19710 where slug = 'cozy-three-bedroom-house-kleverpark';
+update public.properties set securing = 13410 where slug = 'bright-one-bedroom-studio-feijenoord';
+update public.properties set securing = 19350 where slug = 'light-two-bedroom-apartment-de-pijp';
+update public.properties set securing = 14850 where slug = 'cozy-two-bedroom-apartment-centrum-groningen';
+update public.properties set securing = 16110 where slug = 'cozy-two-bedroom-apartment-delfshaven';
+update public.properties set securing = 15210 where slug = 'cozy-two-bedroom-apartment-huiswaard';
+update public.properties set securing = 20250 where slug = 'light-two-bedroom-apartment-ijburg';
+update public.properties set securing = 30600 where slug = 'modern-three-bedroom-apartment-rivierenbuurt';
+update public.properties set securing = 16110 where slug = 'cozy-two-bedroom-apartment-bottendaal';
+update public.properties set securing = 17550 where slug = 'modern-two-bedroom-apartment-centrum-haarlem';
+update public.properties set securing = 15210 where slug = 'modern-two-bedroom-apartment-sterrenburg';
+update public.properties set securing = 16110 where slug = 'modern-two-bedroom-apartment-strijp';
+update public.properties set securing = 15750 where slug = 'modern-two-bedroom-apartment-tanthof';
+update public.properties set securing = 18810 where slug = 'spacious-three-bedroom-house-ginneken';
+update public.properties set securing = 25110 where slug = 'spacious-three-bedroom-house-hillegersberg';
+update public.properties set securing = 18810 where slug = 'modern-two-bedroom-apartment-centrum-den-haag';
+update public.properties set securing = 17910 where slug = 'bright-three-bedroom-house-woensel';
+update public.properties set securing = 16650 where slug = 'bright-two-bedroom-apartment-merenwijk';
+update public.properties set securing = 15750 where slug = 'bright-two-bedroom-apartment-roombeek';
+update public.properties set securing = 18450 where slug = 'bright-three-bedroom-house-vathorst';
+update public.properties set securing = 14850 where slug = 'cozy-two-bedroom-apartment-goverwelle';
+update public.properties set securing = 16110 where slug = 'modern-two-bedroom-apartment-klarendal';
+update public.properties set securing = 17730 where slug = 'modern-two-bedroom-apartment-lombok';
+update public.properties set securing = 17010 where slug = 'spacious-three-bedroom-house-helpman';
+update public.properties set securing = 28710 where slug = 'spacious-three-bedroom-house-statenkwartier';
+update public.properties set securing = 15750 where slug = 'bright-one-bedroom-apartment-oog-in-al';
+update public.properties set securing = 17820 where slug = 'spacious-three-bedroom-house-kralingen';
+update public.properties set securing = 19710 where slug = 'sunny-two-bedroom-apartment-oost';
+update public.properties set securing = 17550 where slug = 'spacious-three-bedroom-house-reeshof';

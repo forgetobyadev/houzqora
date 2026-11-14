@@ -69,6 +69,7 @@ export async function POST(req: Request) {
       amountCents: fee * 100,
       reference: `${user.id}:${slug}`,
       returnUrl: `${siteUrl}/bookings`,
+      email: user.email || undefined,
     });
     return NextResponse.json({ url: payment.checkoutUrl });
   } catch (err) {

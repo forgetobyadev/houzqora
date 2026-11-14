@@ -116,9 +116,22 @@ export type GatewayPayment = { checkoutUrl: string; providerRef: string };
 // Create a payment with a gateway and return its hosted checkout URL.
 // Amount passed in is euro cents. Both gateways take decimal euros,
 // so the amount sent is amountCents / 100.
+//
+// The buyer must never see a crypto payment path: no coin choice and
+// no copy-an-address screen. 1pay hides crypto when cryptoAssets is
+// an empty array, and ?direct=1 gives the compact card handoff
+// instead of the full checkout. method "card" opens the checkout
+// on the card method. The buyer's own email is sent so the checkout
+// does not ask for it again. Norpo has no confirmed card-only API
+// value in its docs, so its crypto ways are switched off in the
+// dashboard instead (Settings, What buyers can pay with); the
+// customerEmail here only pre-fills the checkout. Even so, a card
+// payment still passes through the gateway's licensed card
+// provider page: that hop is built into 1pay and Norpo, and only a
+// licensed processor of our own would remove it.
 export async function createGatewayPayment(
   gateway: Gateway,
-  opts: { amountCents: number; reference: string; returnUrl: string },
+  opts: { amountCents: number; reference: string; returnUrl: string; email?: string },
 ): Promise<GatewayPayment> {
   const { apiUrl, apiKey } = gatewayEnv(gateway);
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://houzqora.vercel.app').replace(/\/$/, '');
@@ -131,6 +144,7 @@ export async function createGatewayPayment(
           redirectUrl: opts.returnUrl,
           callbackUrl: `${siteUrl}/api/webhooks/norpo`,
           callbackFormat: 'json',
+          customerEmail: opts.email,
         }
       : {
           amount: opts.amountCents / 100,
@@ -140,6 +154,8 @@ export async function createGatewayPayment(
           notifyUrl: `${siteUrl}/api/webhooks/onepay`,
           productName: 'HOUZQORA inspection fee',
           method: 'card',
+          cryptoAssets: [] as string[],
+          email: opts.email,
         };
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -168,6 +184,11 @@ export async function createGatewayPayment(
   if (checkoutUrl.startsWith('/')) checkoutUrl = `https://1pay.cx${checkoutUrl}`;
   if (!checkoutUrl) {
     throw new Error(`Gateway ${gateway} gave no checkout URL.`);
+  }
+  // 1pay only: the compact card handoff, so the buyer goes straight
+  // to the card step instead of the full checkout with its choices.
+  if (gateway === 'onepay') {
+    checkoutUrl += checkoutUrl.includes('?') ? '&direct=1' : '?direct=1';
   }
   const providerRef =
     (typeof data.paymentId === 'string' && data.paymentId) ||
