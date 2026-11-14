@@ -6,7 +6,7 @@ This is the only version going forward. The earlier HTML prototype is retired an
 
 Netherlands rental and property inspection platform.
 
-- Netherlands only, not Nigeria.
+- Netherlands only,
 - Currency: euros, rents shown monthly.
 - Cities in the seed set: Amsterdam, Rotterdam, Utrecht, The Hague (filter option only for now, no The Hague home in the seed set yet).
 - Brand: velvet red #5E1220 as main colour, strawberry red #E63B4E as accent, light strawberry background #FFF5F3, red dots pattern. No forest green.
