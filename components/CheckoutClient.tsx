@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { eur, type Property } from '@/lib/properties';
 import { fetchBookings, getCurrentUser, setPendingPath, upsertBooking, type AppUser } from '@/lib/queries';
 import { discountedFee, fetchDiscountState, isDiscountActive } from '@/lib/discount';
+import { supabase } from '@/lib/supabase';
 import InspectionFee from '@/components/InspectionFee';
 import AgentLink from '@/components/AgentLink';
 import Spinner from '@/components/Spinner';
@@ -23,12 +24,18 @@ type Receipt = {
   fee: number;
 };
 
-// Checkout is now an authority to pay, not a payment. There is no Mollie,
-// no iDEAL, and no online payment anywhere on HOUZQORA. The
-// visitor fills a form (buy or rent, viewing slot, how the agent
-// should reach them), generates an authority to pay PDF with the house
-// details, downloads it to their phone, and sends it to an agent
-// on WhatsApp. The booking is never marked paid by this flow.
+// Three ways to pay for the inspection fee:
+// 1. Pay by card through 1pay.cx, which settles the fee in crypto to
+//    HOUZQORA's wallet. 2. Pay by iDEAL through Norpo, same settlement.
+// 3. Authority to pay, offline: the visitor fills a form (buy or
+//    rent, viewing slot, how the agent should reach them), generates
+//    an authority to pay PDF with the house details, downloads it to
+//    their phone, and sends it to an agent on WhatsApp. The card and
+//    iDEAL options only show when their gateway is configured in the
+//    server env vars; the authority to pay option always shows. A
+//    card or iDEAL booking is marked paid by the gateway webhook,
+//    never by the browser returning from checkout. The authority to
+//    pay flow never marks a booking paid.
 export default function CheckoutClient({ p }: { p: Property }) {
   const router = useRouter();
   const [user, setUser] = useState<AppUser | null>(null);
@@ -46,8 +53,15 @@ export default function CheckoutClient({ p }: { p: Property }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [receipt, setReceipt] = useState<Receipt | null>(null);
+  const [payConfig, setPayConfig] = useState({ onepay: false, norpo: false });
+  const [payBusy, setPayBusy] = useState<'onepay' | 'norpo' | null>(null);
+  const [payError, setPayError] = useState('');
 
   useEffect(() => {
+    fetch('/api/payments/config')
+      .then((r) => r.json())
+      .then((c) => setPayConfig({ onepay: !!c.onepay, norpo: !!c.norpo }))
+      .catch(() => {});
     (async () => {
       const u = await getCurrentUser();
       setUser(u);
@@ -179,6 +193,27 @@ export default function CheckoutClient({ p }: { p: Property }) {
     }
   };
 
+  const payWith = async (gateway: 'onepay' | 'norpo') => {
+    setPayError('');
+    setPayBusy(gateway);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setPayError('Log in first.'); return; }
+      const res = await fetch('/api/payments/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+        body: JSON.stringify({ slug: p.slug, gateway }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      if (!res.ok || !data.url) { setPayError(data.error || 'Payment could not be started.'); return; }
+      window.location.href = data.url;
+    } catch {
+      setPayError('Payment could not be started.');
+    } finally {
+      setPayBusy(null);
+    }
+  };
+
   const input = "mt-1 block w-full rounded-xl border border-line px-3 py-2.5 text-sm outline-none";
   const label = "block text-xs font-extrabold text-velvet";
   const option = (selected: boolean) =>
@@ -220,9 +255,25 @@ export default function CheckoutClient({ p }: { p: Property }) {
       <p className="mt-4 text-sm text-muted">Confirming the inspection does not reserve this home. It covers arranging and conducting your viewing.</p>
 
       {!showForm ? (
-        <button onClick={() => setShowForm(true)} className="btn-press mt-4 flex w-full items-center justify-center rounded-full bg-strawberry px-5 py-3 font-bold text-white">
-          Fill form
-        </button>
+        <div className="mt-4 space-y-3">
+          <p className={label}>How do you want to pay?</p>
+          {payConfig.onepay && (
+            <button onClick={() => payWith('onepay')} disabled={payBusy !== null} className="btn-press flex w-full items-center justify-center gap-2 rounded-full bg-velvet px-5 py-3 font-bold text-white disabled:opacity-60">
+              {payBusy === 'onepay' && <Spinner />}
+              {payBusy === 'onepay' ? 'Starting card payment...' : 'Pay by card'}
+            </button>
+          )}
+          {payConfig.norpo && (
+            <button onClick={() => payWith('norpo')} disabled={payBusy !== null} className="btn-press flex w-full items-center justify-center gap-2 rounded-full bg-velvet px-5 py-3 font-bold text-white disabled:opacity-60">
+              {payBusy === 'norpo' && <Spinner />}
+              {payBusy === 'norpo' ? 'Starting iDEAL payment...' : 'Pay by iDEAL'}
+            </button>
+          )}
+          <button onClick={() => setShowForm(true)} className="btn-press flex w-full items-center justify-center rounded-full bg-strawberry px-5 py-3 font-bold text-white">
+            Fill form
+          </button>
+          {payError && <p className="text-sm font-bold text-strawberry">{payError}</p>}
+        </div>
       ) : (
         <div className="mt-5 space-y-5">
           <div>
