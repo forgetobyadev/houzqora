@@ -42,8 +42,8 @@ export default async function PropertyPage({ params }: { params: { slug: string 
           <div className="mt-4 space-y-2 rounded-xl bg-white p-4 text-sm text-ink">
             <p className="flex justify-between"><span>Monthly rent</span><b>{eur(p.rent)}</b></p>
             <p className="flex justify-between"><span>Inspection fee</span><b><InspectionFee fee={p.fee} /></b></p>
-            <p className="flex justify-between border-t border-line pt-2"><span>Remaining to secure</span><b>{eur(p.securing)}</b></p>
-            <p className="text-xs text-muted">The securing amount is set per property, first month rent plus deposit.</p>
+            <p className="flex justify-between border-t border-line pt-2"><span>Remaining to secure for a year</span><b>{eur(p.securing)}</b></p>
+            <p className="text-xs text-muted">The securing amount is set per property, and secures the home for a year.</p>
           </div>
           <p className="mt-4 rounded-xl border border-white/25 p-3 text-sm text-white/80">
             Inspection fee is non-refundable. It covers arranging and conducting your viewing. It does not reserve this home.

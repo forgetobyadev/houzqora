@@ -250,9 +250,9 @@ export default function CheckoutClient({ p }: { p: Property }) {
       <div className="mt-4 space-y-2 text-sm">
         <p className="flex justify-between"><span>Monthly rent</span><b>{eur(p.rent)}</b></p>
         <p className="flex justify-between"><span>Inspection fee, non-refundable</span><b><InspectionFee fee={p.fee} /></b></p>
-        <p className="flex justify-between"><span>Remaining to secure, first month plus deposit</span><b>{eur(p.securing)}</b></p>
+        <p className="flex justify-between"><span>Remaining to secure for a year</span><b>{eur(p.securing)}</b></p>
       </div>
-      <p className="mt-4 text-sm text-muted">Confirming the inspection does not reserve this home. It covers arranging and conducting your viewing.</p>
+      <p className="mt-4 text-sm text-muted">The securing amount secures this home for a year. Confirming the inspection does not reserve the home, it covers arranging and conducting your viewing.</p>
 
       {!showForm ? (
         <div className="mt-4 space-y-3">

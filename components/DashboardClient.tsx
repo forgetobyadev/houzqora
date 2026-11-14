@@ -11,11 +11,11 @@ import { fetchProperties, fetchSavedSlugs, getCurrentUser, toggleSavedSlug, type
 
 const cities = ['All', 'Alkmaar', 'Amersfoort', 'Amsterdam', 'Arnhem', 'Breda', 'Delft', 'Dordrecht', 'Eindhoven', 'Enschede', 'Gouda', 'Groningen', 'Haarlem', 'Leiden', 'Maastricht', 'Nijmegen', 'Rotterdam', 'The Hague', 'Tilburg', 'Utrecht', 'Zwolle'];
 const bedroomOptions = ['Any', '1', '2', '3+'];
-// Rent ranges match the homes actually listed (745 to 1700 a month).
-// The old 1600 to 2500 options were left over from before the prices
-// were halved, so the lowest minimum filtered every home out.
-const minOptions = ['', '800', '900', '1000', '1100', '1300', '1500'];
-const maxOptions = ['', '900', '1000', '1100', '1200', '1300', '1500', '1700'];
+// Rent ranges match the homes actually listed (1490 to 3400 a month).
+// The old 800 to 1700 options were left over from before the prices
+// were doubled, so the highest maximum filtered the dearer homes out.
+const minOptions = ['', '1600', '1800', '2000', '2200', '2600', '3000'];
+const maxOptions = ['', '1800', '2000', '2200', '2400', '2600', '3000', '3400'];
 
 export default function DashboardClient({ initialPage }: { initialPage: number }) {
   const [user, setUser] = useState<AppUser | null>(null);
